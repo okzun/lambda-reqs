@@ -10,6 +10,12 @@ variable "project_name" {
   description = "Name of the project"
 }
 
+variable "cache_expiration_days" {
+  type        = "string"
+  default     = "3"
+  description = "Number of days to keep the cache"
+}
+
 variable "tags" {
   type        = "map"
   default     = {}
@@ -59,4 +65,9 @@ variable "buildspec_file" {
   type        = "string"
   default     = "buildspec.yml"
   description = "Location of buildspec file(defaults to this repo's root)"
+}
+
+variable "aws_profile" {
+  type        = "string"
+  description = "AWS Creds profile"
 }

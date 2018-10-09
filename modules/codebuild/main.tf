@@ -1,23 +1,13 @@
-resource "aws_s3_bucket" "cache_bucket" {
-  acl           = "private"
-  force_destroy = true
-  tags          = "${var.tags}"
+data "template_file" "buildspec" {
+  template      = "${file("${path.module}/${var.buildspec_file}")}"
 
-  lifecycle_rule {
-    id      = "codebuildcache"
-    enabled = true
-
-    prefix  = "/"
-    tags    = "${var.tags}"
-
-    expiration {
-      days = "${var.cache_expiration_days}"
-    }
+  vars {
+    app_name    = "${var.project_name}"
   }
 }
 
 resource "aws_iam_role" "codebuild" {
-  name = "example"
+  name = "codebuild"
 
   assume_role_policy = <<EOF
 {
@@ -57,8 +47,8 @@ resource "aws_iam_role_policy" "codebuild" {
         "s3:*"
       ],
       "Resource": [
-        "${aws_s3_bucket.cache_bucket.arn}",
-        "${aws_s3_bucket.cache_bucket.arn}/*"
+        "arn:aws:s3:::${var.artifact_bucket}",
+        "arn:aws:s3:::${var.artifact_bucket}/*"
       ]
     }
   ]
@@ -76,11 +66,9 @@ resource "aws_codebuild_project" "codebuild" {
   artifacts {
     type            = "S3"
     location        = "${var.artifact_bucket}"
-  }
-
-  cache {
-    type            = "S3"
-    location        = "${aws_s3_bucket.cache_bucket.bucket}"
+    path            = "${var.artifact_path}"
+    name            = "output.zip"
+    packaging       = "ZIP"
   }
 
   environment {
@@ -95,6 +83,7 @@ resource "aws_codebuild_project" "codebuild" {
 
   source {
     type            = "S3"
-    location        = "${var.artifact_bucket}"
+    location        = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_path}/requirements.zip"
+    buildspec       = "${data.template_file.buildspec.rendered}"
   }
 }
