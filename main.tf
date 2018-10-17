@@ -17,5 +17,5 @@ terraform {
     bucket = "okzun-remote-state"
     region = "us-west-2"
     key = "okzun/terraform.tfstate"
- }
+  }
 }
