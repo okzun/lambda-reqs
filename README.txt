@@ -1,1 +1,0 @@
-The purpose of this module is to use S3 hooks to determine when a Python requirements file has been uploaded, and then install them to local directory inside a CodeBuild container, zip them, and upload them to an S3 key.
