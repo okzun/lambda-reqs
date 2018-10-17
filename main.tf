@@ -10,3 +10,12 @@ module "codebuild" {
     artifact_path           = "${var.artifact_path}"
     artifact_bucket_region  = "${var.artifact_bucket_region}"
 }
+
+terraform {
+  backend "s3" {
+    encrypt = true
+    bucket = "okzun-remote-state"
+    region = "us-west-2"
+    key = "okzun/terraform.tfstate"
+ }
+}
