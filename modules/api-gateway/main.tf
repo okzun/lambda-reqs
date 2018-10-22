@@ -37,11 +37,24 @@ resource "aws_api_gateway_deployment" "deployment" {
   stage_name  = "test"
 }
 
+resource "aws_api_gateway_method_settings" "default" {
+  rest_api_id = "${aws_api_gateway_rest_api.api.id}"
+  stage_name  = "test"
+  method_path = "${aws_api_gateway_resource.resource.path_part}/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+
+  depends_on = ["aws_api_gateway_deployment.deployment"]
+}
+
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = "${var.lambda_arn}"
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.api.id}/*/${aws_api_gateway_method.method.http_method}${aws_api_gateway_resource.resource.path}"
+  source_arn = "${aws_api_gateway_deployment.deployment.execution_arn}/*/*"
 }
