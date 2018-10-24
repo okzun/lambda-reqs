@@ -72,13 +72,7 @@ variable "aws_profile" {
   description = "AWS Creds profile"
 }
 
-variable "lambda_handler" {
+variable "lambda_arn" {
   type        = "string"
-  description = "Handler string in the format: '<file_name>.<method_name>'. i.e. 'main.handler'"
-}
-
-variable "lambda_runtime" {
-  type        = "string"
-  description = "Handler runtime, i.e. 'python3.6'"
-  default     = "python3.6"
+  description = "ARN of the lambda function"
 }

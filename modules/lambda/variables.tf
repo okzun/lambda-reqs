@@ -80,5 +80,4 @@ variable "lambda_handler" {
 variable "lambda_runtime" {
   type        = "string"
   description = "Handler runtime, i.e. 'python3.6'"
-  default     = "python3.6"
 }
