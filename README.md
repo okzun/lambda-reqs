@@ -15,12 +15,12 @@ To get started using this project, do the following:
 ### Vars
 
 Here are the variables you'll probably need to fill out:
-**aws_region**: The region in which to deploy the infrastructure
-**aws_profile**: The profile of credentials to use in deployment
-**project_name**: The name of the project(acts as a prefix to infrastructure naming)
-**artifact_bucket**: Name of the S3 bucket where Lambda artifacts are stored
-**artifact_path**: Path in the artifact bucket where the zip file is stored.
-**lambda_handler**: String for the handler in the format "filename.handler_method", i.e. "main.handler" for filename "main.py", method "handler()"
+* **aws_region**: The region in which to deploy the infrastructure
+* **aws_profile**: The profile of credentials to use in deployment
+* **project_name**: The name of the project(acts as a prefix to infrastructure naming)
+* **artifact_bucket**: Name of the S3 bucket where Lambda artifacts are stored
+* **artifact_path**: Path in the artifact bucket where the zip file is stored.
+* **lambda_handler**: String for the handler in the format "filename.handler_method", i.e. "main.handler" for filename "main.py", method "handler()"
 
 ### Prerequisites
 
